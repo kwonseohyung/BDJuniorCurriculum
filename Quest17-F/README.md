@@ -27,7 +27,7 @@
   * Webpack의 플러그인과 모듈은 어떤 역할들을 하나요?
   * Webpack을 이용하여 HMR(Hot Module Replacement) 기능을 설정하려면 어떻게 해야 하나요?
 
-## Quest
+## (선택사항) Quest
 
 * 직전 퀘스트의 소스만 남기고, Vue의 Boilerplating 기능을 쓰지 않고 Webpack 관련한 설정을 원점에서 다시 시작해 보세요.
   * 필요한 번들링과 Source Map, HMR 등의 기능이 모두 잘 작동해야 합니다.

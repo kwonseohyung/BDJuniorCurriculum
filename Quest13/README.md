@@ -30,7 +30,7 @@
   * Apollo Client를 쓰지 않고 Vanilla JavaScript로 GraphQL 요청을 보내려면 어떻게 해야 할까요?
 * GraphQL 기반의 API를 만들 때 에러처리와 HTTP 상태코드 등은 어떻게 하는게 좋을까요?
 
-## Quest
+## (선택사항) Quest
 
 * 메모장의 서버와 클라이언트 부분을 GraphQL API로 수정해 보세요.
 
