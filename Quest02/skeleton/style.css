@@ -1,0 +1,223 @@
+body{
+    background: linear-gradient( to top, #f4f6f8dc 60%, #fff );
+    color:black;
+   
+   }
+   
+   img{
+        width: 30px;
+        height: auto;
+   }
+  
+   .content{
+       width: 600px;
+       margin: 0 auto;
+       padding: 0
+   }
+   
+   .left{
+       display: inline-block;
+   }
+   
+   .right{
+       display:block;
+       float: right;
+   }
+   
+   header {
+       align-content: center;
+       text-align: center;
+       height: 80px;
+   }
+   .logo{
+    font-size: 30px;
+    margin-top: 0px;
+    margin-bottom:2px;
+    text-decoration: none;
+    font-weight: bold;
+    color: green;
+   }
+   .search{
+    height: 40px;
+    width:600px;
+    border: 1px solid greenyellow;
+   }
+   /*
+   nav ul {
+       height: 110px;
+       width: 500px;
+       margin: 0 auto;
+       border: 1px solid black
+       
+   }
+   
+   .list{
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+    list-style: none;
+   }
+*/
+   nav .minibox  img{
+    width: 21px;
+    margin-top: 7px;
+    
+   }
+
+   .list a{
+    text-decoration: none;
+    color: gray;
+   }
+   .list p{
+    font-size:13px;
+    margin-top: 0px;
+   }
+
+.list{
+        display:grid;
+        grid-template-columns: repeat(4, 1fr);
+       justify-content: space-around;
+       grid-gap: 3px;
+       list-style: none;
+       padding-left: 60px;
+       padding-right: 60px;
+       text-align: center;
+    }
+ 
+    .minibox{
+        width: 35px;
+        height: 35px;
+        background-color: rgb(233, 230, 230);
+        border-radius: 10px;
+        display: inline-block;
+        text-align: center;
+      
+       }
+     
+   .main{
+        margin-top:130px;
+        
+   }
+
+   
+   .main span{
+    margin-left: 20px;
+   }
+
+   section div {
+    margin-top :5px;
+   }
+   
+   .weather1{
+       background-color: white;
+       width: auto;
+       height: 60px;
+       border-top-left-radius: 10px;
+       border-top-right-radius: 10px;
+       line-height: 60px;
+   }
+   
+   .weather2{
+       
+       background-color: white;
+       width: auto;
+       height: 120px;
+       border-radius: 10px;
+       line-height: 120px;
+   }
+   
+   .covid{
+       
+       background-color: white;
+       height: 50px;
+       line-height: 50px;
+   }
+   
+   .anniversary{
+   
+       background-color: white;
+       height: 35px;
+       line-height : 35px;
+   }
+   .app{
+       background-color: white;
+       height: 50px;
+       line-height: 50px;
+
+   }       
+
+   .appbutton{
+    margin-left:70px;
+   }
+   .webtoon{
+       line-height : 35px;
+       background-color: white;
+       height: 35px;
+       
+   }
+   .pann{
+    
+       background-color: white;
+       height: 100px;
+   }
+   .smallpann{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+   justify-content: space-around;
+   grid-gap: 5px;
+   list-style: none;
+   padding-left: 50px;
+   padding-right: 50px;
+   text-align: center;
+  
+}
+
+    .minipann{
+        background-color: rgb(221, 219, 219);
+        height: 24px;
+    }
+    .panntitle{
+        margin-left: 10px;
+    }
+    .panncheck{
+        float:right;
+        font-size:13px;
+        margin-right: 10px;
+        margin-top: 5px;
+    }
+   
+   .notice{
+       
+       background-color: white;
+       height: 35px;
+       line-height: 35px;
+   }
+   
+  
+   a{
+    text-decoration-line: none;
+   }
+
+   .smalltitle{
+    margin-left: 10px;
+
+   }
+
+   footer{
+    text-align: center;
+   }
+   footer a{
+    color:black;
+   }
+
+   footer .text1{
+    margin-top: 30px;
+    margin-bottom: 0px;
+    font-size: 5px;
+  
+
+   }
+   footer .text2{
+    font-size: 13px;
+   
+   }
