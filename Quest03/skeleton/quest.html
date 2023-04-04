@@ -15,6 +15,9 @@
 				background-color: limegreen;
 				border: 1px solid black;
 			}
+			.yellow{
+				background-color: yellow;
+			} /*작성 */
 		</style>
 	</head>
 	<body>
@@ -34,13 +37,28 @@
 
 		<script>
 			let row1Squares = document.querySelectorAll('.row1 .square');
+		
 			for(let node of row1Squares) {
 				/* TODO: node 변수를 어떻게 조작해야 할까요? */
+				
+				node.addEventListener('click', function() {
+					node.classList.toggle('yellow');
+				});
+				
 			}
-
+			
 			let row2Squares = document.querySelectorAll('.row2 .square');
 			for(let node of row2Squares) {
 				/* TODO: node 변수를 어떻게 조작해야 할까요? */
+
+				node.addEventListener('click', function() {
+					node.classList.toggle('embed');
+				});
+
+				node.addEventListener('click', function() {
+					node.classList.add('enabled');
+				});
+
 			}
 		</script>
 	</body>
