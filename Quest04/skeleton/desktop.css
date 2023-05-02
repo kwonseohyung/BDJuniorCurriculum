@@ -1,1 +1,28 @@
 /* TODO: 자유롭게 바탕화면 시스템의 CSS를 만들어 보세요! */
+.folder{
+    height: 70px;
+    width: 70px;
+    background-color: greenyellow;
+    display: inline-block;  
+    margin: 10px;
+
+}
+
+.normal{
+    height: 70px;
+    width: 70px;
+    background-color: mediumpurple;
+    display: inline-block;
+    margin:10px;
+}
+.window{
+    height: 400px;
+    width:  300px;
+    background-color: antiquewhite;
+    border: 1px solid black;
+    margin: 10px;
+   
+  
+}
+
+
