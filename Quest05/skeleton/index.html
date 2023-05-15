@@ -2,13 +2,36 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="/style.css">
-		<script src="/notepad.js"></script>
+		<script src="notepad.js"></script>
+		<link rel="stylesheet" href="style.css">
 	</head>
+
 	<body>
-		<!-- TODO: 이 곳을 채워 클라이언트를 만들어 보세요 -->
+
+		<div class="content">
+		
+		
+			<section class="section">
+				<button class="mainButton" id="newFileButtonId">새 파일</button>
+				<button class="mainButton" id="loadButtonId">열기</button>
+				<button class="mainButton" id="saveButtonId">저장</button>
+				<button class="mainButton" id="saveAsButtonId">저장(NEW)</button>
+			</section>
+			<main class="tab_menu">
+				<ul class="list" id="ulId">
+					
+				</ul>
+			</main>
+		
+		</div>
+
+            
+
 		<script>
-			let notepad = new Notepad();
+    		let myNotepad = new Notepad();
+			
+			
+			
 		</script>
 	</body>
 </html>

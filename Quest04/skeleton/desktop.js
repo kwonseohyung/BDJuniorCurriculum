@@ -115,10 +115,5 @@ class Folder extends Icon{
 
 class Window {
 	/* TODO: Window 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
-	//여러 개의 바탕화면을 각각 다른 DOM엘리먼트에서 동시 운영 가능
-	
-
-
-
 	
 };
