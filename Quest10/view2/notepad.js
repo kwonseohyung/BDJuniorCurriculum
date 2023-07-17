@@ -1,5 +1,5 @@
 class MakeTab {
-  constructor() {
+  constructor(title) {
     this.show = document.createElement("li");
     this.showing();
     this.show.className = "is_on";
@@ -18,8 +18,9 @@ class MakeTab {
 
     this.show5 = document.createElement("p");
     this.show5.className = "fileName";
+   
     this.show3.appendChild(this.show5);
-    let show2Text = document.createTextNode("제목없음");
+    let show2Text = document.createTextNode(title);
     this.show5.appendChild(show2Text);
 
     this.indicator = document.createElement("div");
@@ -34,12 +35,37 @@ class MakeTab {
     this.closeButton.className = "XButton";
     this.show.appendChild(this.closeButton);
 
+
+
     this.closeButton.addEventListener("click", () =>
       this.close(this.closeButton)
     );
+    
     this.show5.addEventListener("click", (e) => this.showFile(e));
+
+    let input = document.querySelector(".tab_menu .list .is_on .cont");
+    input.addEventListener("keydown", () => this.indicatorMethod());
+
+    this.fetchFileContent(title);
+
+
   }
 
+  
+  async fetchFileContent(fileName) {
+    try {
+      const response = await fetch(`http://localhost:8000/note/fileContent/${fileName}`);
+      if (!response.ok) {
+        throw new Error(`파일 ${fileName}을(를) 읽을 수 없습니다.`);
+        
+      }
+      const fileData = await response.text();
+      this.show2.value = fileData;
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
   showing() {
     const tabList = document.querySelectorAll(".tab_menu .list li ");
     for (var i = 0; i < tabList.length; i++) {
@@ -47,19 +73,22 @@ class MakeTab {
     }
   }
 
-  showFile(e) {
-    e.preventDefault();
-    const tabList = document.querySelectorAll(".tab_menu .list li");
-    for (var j = 0; j < tabList.length; j++) {
-      tabList[j].classList.remove("is_on");
-    }
 
-    this.show5.parentNode.parentNode.classList.add("is_on");
-    this.show3.setAttribute("href", this.show2);
+showFile(e) {
+  e.preventDefault();
+  const tabList = document.querySelectorAll(".tab_menu .list li");
+  for (var j = 0; j < tabList.length; j++) {
+    tabList[j].classList.remove("is_on");
   }
 
+  this.show5.parentNode.parentNode.classList.add("is_on");
+  this.show3.setAttribute("href", this.show2);
+ 
+  
+}
+
+
   close(a) {
-    // 수정
     if (a.parentNode.className == "is_on") {
       if (a.parentNode.nextSibling) {
         a.parentNode.nextSibling.className = "is_on";
@@ -76,11 +105,26 @@ class MakeTab {
       a.parentNode.remove();
     }
   }
+
+  indicatorMethod() {
+    let indicator = document.querySelector(".tab_menu .list .is_on .indi");
+    indicator.style.display = "inline";
+  }
+
 }
 
-class Notepad extends MakeTab {
+class Notepad  extends MakeTab{
   constructor() {
-    super();
+  
+    if(jsonData && jsonData.activityFile && jsonData.activityFile.length > 0){
+      super(jsonData.activityFile[i])
+    }else{
+      var title="undefined"
+      super(title)
+    }
+    
+
+    
     this.newFileButton = document.getElementById("newFileButtonId");
     this.newFileButton.addEventListener("click", () => this.newFile());
 
@@ -99,15 +143,14 @@ class Notepad extends MakeTab {
     this.logout=document.getElementById('logoutButtonId')
     this.logout.addEventListener('click', ()=> this.logoutTabSave());
 
-    let input = document.querySelector(".tab_menu .list .is_on .cont");
-    input.addEventListener("keydown", () => this.indicatorMethod());
     
   }
 
-  newFile() {
-    let myMakeTab = new MakeTab();
-  }
+newFile() {
+  let myMakeTab = new MakeTab();
+}
 
+ 
   saveMethod() {
     let indicator = document.querySelector(".tab_menu .list .is_on .indi");
     var input = document.querySelector(".tab_menu .list .is_on .cont");
@@ -133,7 +176,6 @@ class Notepad extends MakeTab {
         .then((checkText) => {
           if (checkText !== "File not found") {
             indicator.style.display = "none";
-           // input.addEventListener("keydown", () => this.indicatorMethod());
           } else {
             alert("새 파일입니다. 저장(NEW)버튼을 클릭해주세요.");
           }
@@ -157,7 +199,7 @@ class Notepad extends MakeTab {
       var keyName = prompt("저장파일명을 입력하세요.");
 
       if (keyName !== null) {
-        if (keyName !== "") {
+        if (keyName !== "" && keyName !== "undefined") {
           let file = {
             method: "POST",
             body: JSON.stringify({
@@ -189,7 +231,7 @@ class Notepad extends MakeTab {
               console.log("FETCH ERROR", error);
             });
         } else {
-          alert("파일명이 필요합니다");
+          alert("다른 이름으로 저장하세요.");
         }
       }
       
@@ -199,11 +241,10 @@ class Notepad extends MakeTab {
   }
 
   loading() {
-    let input = document.querySelector(".tab_menu .list .is_on .cont");
-
     let z = document.querySelector(".list");
     if (z.firstElementChild) {
       var keyName = prompt("파일명을 입력하세요.");
+    
       if (keyName !== null) {
         let file = {
           method: "POST",
@@ -219,12 +260,14 @@ class Notepad extends MakeTab {
           .then((response) => response.text())
           .then((checkText) => {
             if (checkText !== "File not found") {
-              input.value = checkText;
+               let my = new MakeTab(keyName)
+              
               document.querySelector(
                 ".tab_menu .list .is_on .btn .fileName"
               ).innerHTML = keyName;
-
-              //input.addEventListener("keydown", () => this.indicatorMethod());
+              let input = document.querySelector(".tab_menu .list .is_on .cont");
+              input.value = checkText;
+           
             } else {
               alert("존재하지 않는 파일입니다.");
             }
@@ -232,11 +275,13 @@ class Notepad extends MakeTab {
           .catch((error) => {
             console.log("FETCH ERROR", error);
           });
-      }
-    } else {
-      alert("새 파일을 먼저 만들어 주세요");
+
+     } else {
+       alert("새 파일을 먼저 만들어 주세요");
+     }
     }
   }
+
 
   deleteMethod() {
     var input = document.querySelector(".tab_menu .list .is_on .cont"); //var로 하면 안되고..
@@ -278,30 +323,29 @@ class Notepad extends MakeTab {
     }
   }
 
-  indicatorMethod() {
-    let indicator = document.querySelector(".tab_menu .list .is_on .indi");
-    indicator.style.display = "inline";
-  }
-
+ 
   logoutTabSave() {
+ 
     const tabElements = document.querySelectorAll(".tab_menu .list li");
     const tabData = [];
-    const isActive = document.querySelector(
-      ".tab_menu .list .is_on .btn"
-    ).innerText;
-
-    tabElements.forEach(function (tabElement) {
-      const titleElement = tabElement.querySelector(".btn .fileName");
-      const title = titleElement.innerHTML;
-
-      tabData.push(title);
-    });
+    const isActive = document.querySelector(".tab_menu .list .is_on .btn")?.innerText || "";
+  
+    if (tabElements.length > 0) {
+      tabElements.forEach(function (tabElement) {
+        const titleElement = tabElement.querySelector(".btn .fileName");
+        const title = titleElement.innerHTML;
+        tabData.push(title);
+      });
+    }
 
     const data = {
       is_on: isActive,
       tab: tabData,
     };
 
+    console.log("is_on"+data.is_on)
+
+    
     fetch(`http://localhost:8000/logout`, {
       method: "POST",
       headers: {
@@ -311,8 +355,7 @@ class Notepad extends MakeTab {
     })
       .then((response) => {
         if (response.ok) {
-          console.log("탭 정보 전송 성공");
-         
+          window.location.href = "/";
         } else {
           console.error("탭 정보 전송 실패");
         }
@@ -324,3 +367,6 @@ class Notepad extends MakeTab {
 
 
 }
+
+ 
+  

@@ -2,18 +2,17 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <script src="./notepad0.js"></script>
 
-    <link rel="stylesheet" href="./style.css" />
+    <script src="http://localhost:8000/notepad.js"></script>
+
+
+     <link href="http://localhost:8000/style.css" rel="stylesheet" type="text/css">
   </head>
 
   <body>
+   
     <div class="content">
-    
-      <!-- <div style="width: 100px; height: 80px; border:1px solid blueviolet" >
-        {{activityFile}}
-        </div> -->
-     
+
       <section class="section">
         <button class="mainButton" id="newFileButtonId">새 파일</button>
         <button class="mainButton" id="loadButtonId">열기</button>
@@ -28,17 +27,36 @@
       
 
     </div>
-
+    
+     
     <script>
-       let myNotepad = new Notepad();
-       //let myMakeTab = new MakeTab();
-      //  let newFileButton = document.getElementById("newFileButtonId");
-      //  newFileButton.addEventListener("click", function(){
-      //   let myMakeTab = new MakeTab();
-      //  });
    
-
+      
+    if('{{jsonData}}'){
+      console.log("존재")
+      var encodedData = '{{ jsonData }}';
+      var parser = new DOMParser();
+      var decodedData = parser.parseFromString(encodedData, 'text/html').body.textContent;
+      var jsonData = JSON.parse(decodedData);
+      console.log("index.html에서 jsonData: ", jsonData);
+      jsonData=JSON.parse(jsonData)
+      console.log(typeof(jsonData))
+     
+      for (var i = 0; i <jsonData.activityFile.length; i++) {
+        console.log("activityFile[" + i + "]: ", jsonData.activityFile[i]);
+          
+        new MakeTab(jsonData.activityFile[i]);
+      } 
+     let myNote= new Notepad()
+     
+    }else{
+      let myNote= new Notepad()
+    }
+  
+  
   
     </script>
   </body>
 </html>
+
+
