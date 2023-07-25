@@ -242,7 +242,7 @@ newFile() {
 
   loading() {
     let z = document.querySelector(".list");
-    if (z.firstElementChild) {
+ 
       var keyName = prompt("파일명을 입력하세요.");
     
       if (keyName !== null) {
@@ -276,10 +276,7 @@ newFile() {
             console.log("FETCH ERROR", error);
           });
 
-     } else {
-       alert("새 파일을 먼저 만들어 주세요");
-     }
-    }
+        }
   }
 
 
