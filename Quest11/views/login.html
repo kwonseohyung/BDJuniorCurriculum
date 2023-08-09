@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <form method="post" action="/login">
-
-   
-        로그인 : <input type="text" name="userid"><br>
-        비밀번호: <input type="text" name="userpw"><br>
-        <button type="submit">확인</button>
-        <br><br>
-
+  </head>
+  <body>
+    <form method="post" action="/user/login">
+      로그인 : <input type="text" name="userId" /><br />
+      비밀번호: <input type="text" name="password" /><br />
+      <button type="submit">확인</button>
+      <br /><br />
     </form>
     <p>계정정보</p>
-    
-    <p> 1. userid: "a", userpw: "aa", username: "ki"  </p>
-    <p>2. userid: "2", userpw: "2", username: "가" </p>
-    <p> 3. userid: "test", userpw: "testpw", username: "테스트용" </p>
-   
 
-</body>
+    <p>1. userid: "a", userpw: "aa", username: "ki"</p>
+    <p>2. userid: "2", userpw: "2", username: "가"</p>
+    <p>3. userid: "test", userpw: "testpw", username: "테스트용"</p>
+  </body>
 </html>

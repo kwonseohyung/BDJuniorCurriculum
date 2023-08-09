@@ -41,19 +41,17 @@
         console.log("index.html에서 jsonData: ", jsonData);
         //jsonData = JSON.parse(jsonData);
         console.log(typeof jsonData);
-        console.log(jsonData.activity_title);
-        for (var i = 0; i < jsonData.activity_title.length; i++) {
-          console.log(
-            "activity_title[" + i + "]: ",
-            jsonData.activity_title[i]
-          );
+        console.log(jsonData.length);
+        for (var i = 0; i < jsonData.length; i++) {
+          console.log("activity_title[" + i + "]: ", jsonData[i]);
 
-          new MakeTab(jsonData.activity_title[i]);
+          new MakeTab(jsonData[i]);
         }
         let myNote = new Notepad();
       } else {
         let myNote = new Notepad();
       }
+
       // console.log("{{results}}");
       // if ("{{results}}") {
       //   console.log("존재");
