@@ -18,7 +18,7 @@ class MakeTab {
 
     this.show5 = document.createElement("p");
     this.show5.className = "fileName";
-   
+
     this.show3.appendChild(this.show5);
     let show2Text = document.createTextNode(title);
     this.show5.appendChild(show2Text);
@@ -35,36 +35,31 @@ class MakeTab {
     this.closeButton.className = "XButton";
     this.show.appendChild(this.closeButton);
 
-
-
     this.closeButton.addEventListener("click", () =>
       this.close(this.closeButton)
     );
-    
+
     this.show5.addEventListener("click", (e) => this.showFile(e));
 
     let input = document.querySelector(".tab_menu .list .is_on .cont");
     input.addEventListener("keydown", () => this.indicatorMethod());
 
     this.fetchFileContent(title);
-
-
   }
 
-  
   async fetchFileContent(fileName) {
     try {
-      const response = await fetch(`http://localhost:8000/note/fileContent/${fileName}`);
+      const response = await fetch(
+        `http://localhost:8000/note/fileContent/${fileName}`
+      );
       if (!response.ok) {
         throw new Error(`파일 ${fileName}을(를) 읽을 수 없습니다.`);
-        
       }
       const fileData = await response.text();
       this.show2.value = fileData;
     } catch (error) {
       console.log(error);
     }
-
   }
   showing() {
     const tabList = document.querySelectorAll(".tab_menu .list li ");
@@ -73,20 +68,16 @@ class MakeTab {
     }
   }
 
+  showFile(e) {
+    e.preventDefault();
+    const tabList = document.querySelectorAll(".tab_menu .list li");
+    for (var j = 0; j < tabList.length; j++) {
+      tabList[j].classList.remove("is_on");
+    }
 
-showFile(e) {
-  e.preventDefault();
-  const tabList = document.querySelectorAll(".tab_menu .list li");
-  for (var j = 0; j < tabList.length; j++) {
-    tabList[j].classList.remove("is_on");
+    this.show5.parentNode.parentNode.classList.add("is_on");
+    this.show3.setAttribute("href", this.show2);
   }
-
-  this.show5.parentNode.parentNode.classList.add("is_on");
-  this.show3.setAttribute("href", this.show2);
- 
-  
-}
-
 
   close(a) {
     if (a.parentNode.className == "is_on") {
@@ -110,21 +101,17 @@ showFile(e) {
     let indicator = document.querySelector(".tab_menu .list .is_on .indi");
     indicator.style.display = "inline";
   }
-
 }
 
-class Notepad  extends MakeTab{
+class Notepad extends MakeTab {
   constructor() {
-  
-    if(jsonData && jsonData.activityFile && jsonData.activityFile.length > 0){
-      super(jsonData.activityFile[i])
-    }else{
-      var title="undefined"
-      super(title)
+    if (jsonData && jsonData.activityFile && jsonData.activityFile.length > 0) {
+      super(jsonData.activityFile[i]);
+    } else {
+      var title = "undefined";
+      super(title);
     }
-    
 
-    
     this.newFileButton = document.getElementById("newFileButtonId");
     this.newFileButton.addEventListener("click", () => this.newFile());
 
@@ -140,17 +127,14 @@ class Notepad  extends MakeTab{
     this.delete = document.getElementById("deleteButtonId");
     this.delete.addEventListener("click", () => this.deleteMethod());
 
-    this.logout=document.getElementById('logoutButtonId')
-    this.logout.addEventListener('click', ()=> this.logoutTabSave());
-
-    
+    this.logout = document.getElementById("logoutButtonId");
+    this.logout.addEventListener("click", () => this.logoutTabSave());
   }
 
-newFile() {
-  let myMakeTab = new MakeTab();
-}
+  newFile() {
+    let myMakeTab = new MakeTab();
+  }
 
- 
   saveMethod() {
     let indicator = document.querySelector(".tab_menu .list .is_on .indi");
     var input = document.querySelector(".tab_menu .list .is_on .cont");
@@ -183,8 +167,6 @@ newFile() {
         .catch((error) => {
           console.log("FETCH ERROR", error);
         });
-
-     
     } else {
       alert("새 파일을 먼저 만들어 주세요.");
     }
@@ -234,7 +216,6 @@ newFile() {
           alert("다른 이름으로 저장하세요.");
         }
       }
-      
     } else {
       alert("새 파일을 먼저 만들어 주세요");
     }
@@ -242,9 +223,9 @@ newFile() {
 
   loading() {
     let z = document.querySelector(".list");
- 
+    if (z.firstElementChild) {
       var keyName = prompt("파일명을 입력하세요.");
-    
+
       if (keyName !== null) {
         let file = {
           method: "POST",
@@ -260,14 +241,15 @@ newFile() {
           .then((response) => response.text())
           .then((checkText) => {
             if (checkText !== "File not found") {
-               let my = new MakeTab(keyName)
-              
+              let my = new MakeTab(keyName);
+
               document.querySelector(
                 ".tab_menu .list .is_on .btn .fileName"
               ).innerHTML = keyName;
-              let input = document.querySelector(".tab_menu .list .is_on .cont");
+              let input = document.querySelector(
+                ".tab_menu .list .is_on .cont"
+              );
               input.value = checkText;
-           
             } else {
               alert("존재하지 않는 파일입니다.");
             }
@@ -275,10 +257,11 @@ newFile() {
           .catch((error) => {
             console.log("FETCH ERROR", error);
           });
-
-        }
+      } else {
+        alert("새 파일을 먼저 만들어 주세요");
+      }
+    }
   }
-
 
   deleteMethod() {
     var input = document.querySelector(".tab_menu .list .is_on .cont"); //var로 하면 안되고..
@@ -320,13 +303,12 @@ newFile() {
     }
   }
 
- 
   logoutTabSave() {
- 
     const tabElements = document.querySelectorAll(".tab_menu .list li");
     const tabData = [];
-    const isActive = document.querySelector(".tab_menu .list .is_on .btn")?.innerText || "";
-  
+    const isActive =
+      document.querySelector(".tab_menu .list .is_on .btn")?.innerText || "";
+
     if (tabElements.length > 0) {
       tabElements.forEach(function (tabElement) {
         const titleElement = tabElement.querySelector(".btn .fileName");
@@ -340,9 +322,8 @@ newFile() {
       tab: tabData,
     };
 
-    console.log("is_on"+data.is_on)
+    console.log("is_on" + data.is_on);
 
-    
     fetch(`http://localhost:8000/logout`, {
       method: "POST",
       headers: {
@@ -361,9 +342,4 @@ newFile() {
         console.error("네트워크 오류:", error);
       });
   }
-
-
 }
-
- 
-  
