@@ -2,7 +2,7 @@
 
 cd "C:\Program Files\MySQL\MySQL Server 8.0\bin"
 mysql -u root -p
-
+npx sequelize model:generate --name activity_file --attributes user_id:integer,user_name:string
  */
  create table `user`(
   `id` varchar(10) PRIMARY key,

@@ -56,7 +56,7 @@ class MakeTab {
         throw new Error(`파일 ${fileName}을(를) 읽을 수 없습니다.`);
       }
       const fileData = await response.json(); // JSON 형식으로 파싱
-      this.show2.value = fileData;
+      this.show2.value = fileData.activity_contents;
     } catch (error) {
       console.log(error);
     }
