@@ -31,9 +31,13 @@ models.sequelize
 
 //module.exports = db;
 //db.connect();
-const options = {
-  key: fs.readFileSync("./config/cert.key"),
-  cert: fs.readFileSync("./config/cert.crt"),
+// const options = {
+//   key: fs.readFileSync("./config/key.pem"),
+//   cert: fs.readFileSync("./config/cert.pem"),
+// };
+const option = {
+  key: fs.readFileSync("./config/localhost-key.pem"),
+  cert: fs.readFileSync("./config/localhost.pem"),
 };
 
 app.set("view engine", "html");
@@ -62,10 +66,15 @@ app.listen(8000, function () {
   console.log("listening on 8000");
 });
 
-https.createServer(options, app).listen(8080, () => {
-  console.log("listening on 8080");
-});
-
+// https.createServer(options, app).listen(8080, () => {
+//   console.log("listening on 8080");
+// });
+https
+  .createServer(option, (req, res) => {
+    res.write("Congrats! You made https server now :)");
+    res.end();
+  })
+  .listen(3000);
 app.get("/", (req, res) => {
   res.render("main.html");
 });
@@ -80,6 +89,7 @@ app.get("/logout", function (req, res, next) {
 const { user } = require("./models");
 const { file } = require("./models");
 const { activity_file } = require("./models");
+const { hostname } = require("os");
 
 app.get("/note/fileContent/:fileName", async (req, res) => {
   const { fileName } = req.params;
