@@ -1,0 +1,26 @@
+{
+  "name": "quest10",
+  "version": "1.0.0",
+  "description": "* 이번 퀘스트에서는 웹에서의 인증에 관해 알아보겠습니다.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "chokidar": "^3.5.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "fs": "^0.0.1-security",
+    "memorystore": "^1.6.7",
+    "mysql2": "^3.5.2",
+    "nunjucks": "^3.2.4",
+    "sequelize": "^6.32.1",
+    "sequelize-cli": "^6.6.1"
+  }
+}
