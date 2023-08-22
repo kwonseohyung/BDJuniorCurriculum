@@ -41,7 +41,9 @@ router.post("/login", async function (req, res, next) {
       id: body.userId,
     },
   });
-
+  if (result == null) {
+    return res.redirect("/user/login");
+  }
   let dbPassword = result.dataValues.password; //db에 저장된 값
   let inputPassword = body.password;
   let salt = result.dataValues.salt;
