@@ -16,7 +16,6 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var mysql = require("mysql2");
 const models = require("./models/index.js");
 
 models.sequelize
@@ -29,12 +28,6 @@ models.sequelize
     console.log(err);
   });
 
-//module.exports = db;
-//db.connect();
-// const options = {
-//   key: fs.readFileSync("./config/key.pem"),
-//   cert: fs.readFileSync("./config/cert.pem"),
-// };
 const option = {
   key: fs.readFileSync("./config/localhost-key.pem"),
   cert: fs.readFileSync("./config/localhost.pem"),
