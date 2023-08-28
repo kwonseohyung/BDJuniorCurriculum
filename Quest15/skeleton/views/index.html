@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+    <script src="http://localhost:8000/notepad.js"></script>
+
+    <link
+      href="http://localhost:8000/style.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+
+  <body>
+    <div class="content">
+      <section class="section">
+        <button class="mainButton" id="newFileButtonId">새 파일</button>
+        <button class="mainButton" id="loadButtonId">열기</button>
+        <button class="mainButton" id="saveButtonId">저장</button>
+        <button class="mainButton" id="saveAsButtonId">저장(NEW)</button>
+        <button class="mainButton" id="deleteButtonId">삭제</button>
+        <button class="mainButton" id="logoutButtonId">로그아웃</button>
+        <button class="mainButton" id="testButtonId">test</button>
+      </section>
+      <main class="tab_menu">
+        <ul class="list" id="ulId"></ul>
+      </main>
+    </div>
+
+    <script>
+      // 'results' array now contains the data sent from the server
+
+      if ("{{jsonData}}") {
+        console.log("존재");
+        var encodedData = "{{ jsonData }}";
+        var parser = new DOMParser();
+        var decodedData = parser.parseFromString(encodedData, "text/html").body
+          .textContent;
+        var jsonData = JSON.parse(decodedData);
+        console.log("index.html에서 jsonData: ", jsonData);
+        //jsonData = JSON.parse(jsonData);
+        console.log(typeof jsonData);
+        console.log(jsonData.length);
+        for (var i = 0; i < jsonData.length; i++) {
+          console.log("activity_title[" + i + "]: ", jsonData[i]);
+
+          new MakeTab(jsonData[i]);
+        }
+        let myNote = new Notepad();
+      } else {
+        let myNote = new Notepad();
+      }
+
+      // console.log("{{results}}");
+      // if ("{{results}}") {
+      //   console.log("존재");
+      //   // var encodedData = "{{ jsonData }}";
+      //   // var parser = new DOMParser();
+      //   // var decodedData = parser.parseFromString(encodedData, "text/html").body
+      //   //   .textContent;
+      //   // var jsonData = JSON.parse(decodedData);
+      //   // console.log("index.html에서 jsonData: ", jsonData);
+      //   // jsonData = JSON.parse(jsonData);
+      //   // console.log(typeof jsonData);
+
+      //   for (var i = 0; i < activity_tabData.length; i++) {
+      //     console.log("activity_tabData[" + i + "]: ", activity_tabData[i]);
+
+      //     new MakeTab(activity_tabData[i]);
+      //   }
+      //   let myNote = new Notepad();
+      // } else {
+      //   let myNote = new Notepad();
+      // }
+    </script>
+  </body>
+</html>
