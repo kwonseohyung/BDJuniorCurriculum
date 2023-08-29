@@ -5,7 +5,6 @@ const Memorystore = require("memorystore")(session);
 const crypto = require("crypto");
 const https = require("https");
 //var sequelize = require("./models").default.sequelize;
-var exist = require("../views/exist");
 
 const router = express.Router();
 var sequelize = require("../models").sequelize;

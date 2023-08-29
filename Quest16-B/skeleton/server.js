@@ -40,7 +40,7 @@ app.use("/user", router);
 app.use("/note", noterouter);
 
 app.listen(8000, function () {
-  console.log("listening on 8000");
+  console.log("컨테이너 내에서 실행");
 });
 
 app.get("/", (req, res) => {
