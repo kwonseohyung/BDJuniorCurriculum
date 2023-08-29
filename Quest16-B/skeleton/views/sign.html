@@ -10,7 +10,7 @@
     <form
       action="http://localhost:8000/user/sign"
       method="POST"
-      onsubmit="return checking()"
+      onsubmit="checking()"
     >
       <table>
         <tr>
@@ -50,6 +50,7 @@
       })
         .then((response) => {
           if (response.ok) {
+            console.log(0);
             return response.json();
           } else {
             throw new Error(response.status);
@@ -58,14 +59,15 @@
         .then((data) => {
           if (data && data.exists === 1) {
             alert("동일한 아이디 존재 ");
+            window.location.href = "http://localhost:8000/user/sign";
+          } else {
+            window.location.href = "http://localhost:8000/user/login";
           }
         })
+
         .catch((error) => {
           console.log("FETCH ERROR", error);
         });
-
-      // 페이지 이동을 막습니다.
-      return false;
     }
   </script>
 </html>

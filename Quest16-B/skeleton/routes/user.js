@@ -22,7 +22,6 @@ router.post("/sign", async function (req, res) {
 
   if (existsId) {
     // 중복아이디
-
     return res.status(200).send({ exists: 1 });
   } else {
     let inputPassword = body.password;
@@ -41,7 +40,7 @@ router.post("/sign", async function (req, res) {
       salt: salt,
     });
 
-    res.redirect("/");
+    return res.status(200).send({ exists: 0 });
   }
 });
 

@@ -3,7 +3,7 @@
     "username": "root",
     "password": "3778",
     "database": "memo2",
-    "host": "host.docker.internal",
+    "host": "127.0.0.1",
     "port": 3306,
     "dialect": "mysql"
   }
