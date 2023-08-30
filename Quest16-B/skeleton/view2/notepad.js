@@ -50,7 +50,7 @@ class MakeTab {
   async fetchFileContent(fileName) {
     try {
       const response = await fetch(
-        `http://localhost:8000/note/fileContent/${fileName}`
+        `https://localhost:8000/note/fileContent/${fileName}`
       );
       if (!response.ok) {
         throw new Error(`파일 ${fileName}을(를) 읽을 수 없습니다.`);
@@ -161,7 +161,7 @@ class Notepad extends MakeTab {
           "Content-Type": "application/json",
         },
       };
-      fetch("http://localhost:8000/note/saving", file)
+      fetch("https://localhost:8000/note/saving", file)
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -206,7 +206,7 @@ class Notepad extends MakeTab {
             "Content-Type": "application/json",
           },
         };
-        fetch("http://localhost:8000/note/saveAs", file)
+        fetch("https://localhost:8000/note/saveAs", file)
           .then((response) => {
             if (response.ok) {
               return response.json();
@@ -250,7 +250,7 @@ class Notepad extends MakeTab {
         },
       };
 
-      fetch(`http://localhost:8000/note/loading`, file)
+      fetch(`https://localhost:8000/note/loading`, file)
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -300,7 +300,7 @@ class Notepad extends MakeTab {
         },
       };
 
-      fetch(`http://localhost:8000/note/delete`, file)
+      fetch(`https://localhost:8000/note/delete`, file)
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -329,8 +329,6 @@ class Notepad extends MakeTab {
   logoutTabSave() {
     const tabElements = document.querySelectorAll(".tab_menu .list li");
     const tabData = [];
-    // const isActive =
-    //   document.querySelector(".tab_menu .list .is_on .btn")?.innerText || "";
 
     if (tabElements.length > 0) {
       tabElements.forEach(function (tabElement) {
@@ -340,12 +338,7 @@ class Notepad extends MakeTab {
       });
     }
 
-    // const data = {
-    //   //is_on: isActive,
-    //   tab: tabData,
-    // };
-
-    fetch(`http://localhost:8000/note/logout`, {
+    fetch(`https://localhost:8000/note/logout`, {
       method: "POST",
 
       headers: {

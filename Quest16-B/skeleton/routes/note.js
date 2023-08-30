@@ -3,7 +3,6 @@ const nunjucks = require("nunjucks");
 const session = require("express-session");
 const Memorystore = require("memorystore")(session);
 const crypto = require("crypto");
-const https = require("https");
 //var sequelize = require("./models").default.sequelize;
 
 const router = express.Router();
@@ -11,7 +10,7 @@ var sequelize = require("../models").sequelize;
 const app = express();
 //chokidar 설치
 sequelize.sync();
-const fs = require("fs");
+
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

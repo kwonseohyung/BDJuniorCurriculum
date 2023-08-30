@@ -5,6 +5,8 @@ const Memorystore = require("memorystore")(session);
 const sequelize = require("./models").sequelize;
 const app = express();
 const bodyParser = require("body-parser");
+const https = require("https");
+const fs = require("fs");
 
 const router = require("./routes/user");
 const noterouter = require("./routes/note");
@@ -20,6 +22,11 @@ nunjucks.configure("./views", {
   express: app,
   watch: true,
 });
+
+const option = {
+  key: fs.readFileSync("./config/localhost-key.pem"),
+  cert: fs.readFileSync("./config/localhost.pem"),
+};
 
 let maxAge = 3 * 60 * 1000;
 const sessionObj = {
@@ -38,8 +45,8 @@ app.use(express.static("view2"));
 app.use("/user", router);
 app.use("/note", noterouter);
 
-app.listen(8000, function () {
-  console.log("컨테이너 내에서 실행");
+https.createServer(option, app).listen(8000, () => {
+  console.log(`HTTPS server started on port 8080`);
 });
 
 app.get("/", (req, res) => {

@@ -7,11 +7,7 @@
   </head>
   <body>
     <h3>회원 가입</h3>
-    <form
-      action="http://localhost:8000/user/sign"
-      method="POST"
-      onsubmit="checking()"
-    >
+    <form onsubmit="checking()">
       <table>
         <tr>
           <td>아이디 :</td>
@@ -37,7 +33,7 @@
       let password = document.getElementById("password").value;
       let userName = document.getElementById("userName").value;
 
-      fetch("http://localhost:8000/user/sign", {
+      fetch("https://localhost:8000/user/sign", {
         method: "POST",
         body: JSON.stringify({
           userId: userId,
@@ -59,12 +55,11 @@
         .then((data) => {
           if (data && data.exists === 1) {
             alert("동일한 아이디 존재 ");
-            window.location.href = "http://localhost:8000/user/sign";
+            window.location.href = "https://localhost:8000/user/sign";
           } else {
-            window.location.href = "http://localhost:8000/user/login";
+            window.location.href = "https://localhost:8000/user/login";
           }
         })
-
         .catch((error) => {
           console.log("FETCH ERROR", error);
         });
