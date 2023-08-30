@@ -4,7 +4,6 @@ const session = require("express-session");
 const Memorystore = require("memorystore")(session);
 const sequelize = require("./models").sequelize;
 const app = express();
-const fs = require("fs");
 const bodyParser = require("body-parser");
 
 const router = require("./routes/user");
@@ -50,7 +49,6 @@ app.get("/", (req, res) => {
 app.get("/logout", function (req, res, next) {
   req.session.destroy();
   res.clearCookie("secretkey");
-
   res.redirect("/user/login");
 });
 
