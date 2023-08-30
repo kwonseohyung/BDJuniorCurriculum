@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const models = require("../models");
 const crypto = require("crypto");
-const activity_file = require("../models/activity_file");
+
+const { activity_file } = require("../models");
+const { user } = require("../models");
 
 router.get("/sign", function (req, res, next) {
   res.render("sign.html");
@@ -11,21 +13,34 @@ router.get("/sign", function (req, res, next) {
 router.post("/sign", async function (req, res) {
   let body = req.body;
 
-  let inputPassword = body.password;
-  let salt = Math.round(new Date().valueOf() * Math.random()) + "";
-  //createHash: 해시 알고리즘 넘김, update: 비밀번호에 salt를 더한 값을 넘김, digest: 인코딩방식
-  let hashPassword = crypto
-    .createHash("sha512")
-    .update(inputPassword + salt)
-    .digest("hex");
-  let result = models.user.create({
-    id: body.userId,
-    password: hashPassword,
-    name: body.userName,
-    salt: salt,
+  const existsId = await user.findOne({
+    where: {
+      id: req.body.userId,
+    },
   });
 
-  res.redirect("/");
+  if (existsId) {
+    // 중복아이디
+    return res.status(200).send({ exists: 1 });
+  } else {
+    let inputPassword = body.password;
+    let salt = Math.round(new Date().valueOf() * Math.random()) + "";
+    //createHash: 해시 알고리즘 넘김, update: 비밀번호에 salt를 더한 값을 넘김, digest: 인코딩방식
+
+    let hashPassword = crypto
+      .createHash("sha512")
+      .update(inputPassword + salt)
+      .digest("hex");
+
+    let result = models.user.create({
+      id: body.userId,
+      password: hashPassword,
+      name: body.userName,
+      salt: salt,
+    });
+
+    return res.status(200).send({ exists: 0 });
+  }
 });
 
 router.get("/login", (req, res) => {
@@ -56,7 +71,7 @@ router.post("/login", async function (req, res, next) {
     req.session.userId = body.userId;
     // res.redirect("/note");
     let session = req.session;
-    const activity_title = await models.activity_file.findAll({
+    const activity_title = await activity_file.findAll({
       attributes: ["activity_title"],
       where: {
         user_id: body.userId,

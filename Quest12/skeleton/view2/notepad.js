@@ -50,7 +50,7 @@ class MakeTab {
   async fetchFileContent(fileName) {
     try {
       const response = await fetch(
-        `http://localhost:8000/note/fileContent/${fileName}`
+        `https://localhost:8000/note/fileContent/${fileName}`
       );
       if (!response.ok) {
         throw new Error(`파일 ${fileName}을(를) 읽을 수 없습니다.`);
@@ -161,7 +161,7 @@ class Notepad extends MakeTab {
           "Content-Type": "application/json",
         },
       };
-      fetch("http://localhost:8000/note/saving", file)
+      fetch("https://localhost:8000/note/saving", file)
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -205,7 +205,7 @@ class Notepad extends MakeTab {
             "Content-Type": "application/json",
           },
         };
-        fetch("http://localhost:8000/note/saveAs", file)
+        fetch("https://localhost:8000/note/saveAs", file)
           .then((response) => {
             if (response.ok) {
               return response.json();
@@ -251,7 +251,7 @@ class Notepad extends MakeTab {
         },
       };
 
-      fetch(`http://localhost:8000/note/loading`, file)
+      fetch(`https://localhost:8000/note/loading`, file)
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -301,7 +301,7 @@ class Notepad extends MakeTab {
         },
       };
 
-      fetch(`http://localhost:8000/note/delete`, file)
+      fetch(`https://localhost:8000/note/delete`, file)
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -347,7 +347,7 @@ class Notepad extends MakeTab {
     //   tab: tabData,
     // };
 
-    fetch(`http://localhost:8000/logout`, {
+    fetch(`https://localhost:8000/logout`, {
       method: "POST",
 
       headers: {
@@ -368,55 +368,4 @@ class Notepad extends MakeTab {
         console.error("네트워크 오류:", error);
       });
   }
-
-  /*
-  testing() {
-    let indicator = document.querySelector(".tab_menu .list .is_on .indi");
-    var input = document.querySelector(".tab_menu .list .is_on .cont");
-    let z = document.querySelector(".list");
-
-    if (z.firstElementChild) {
-      var keyName = prompt("저장파일명을 입력하세요.");
-      if (keyName !== "" && keyName !== "undefined") {
-        let file = {
-          method: "POST",
-          body: JSON.stringify({
-            keyName: keyName,
-            fileData: input.value,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        };
-        fetch("http://localhost:8000/note/hh", file)
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw new Error(response.status);
-            }
-          })
-          .then((data) => {
-            if (data && data.exists === 1) {
-              // 중복된 파일 존재
-              alert("동일한 파일명이 존재합니다. 다른 이름으로 저장해주세요.");
-            } else if (data && data.exists === 0) {
-              // 중복된 파일 존재X
-              document.querySelector(
-                ".tab_menu .list .is_on .btn .fileName"
-              ).innerText = keyName;
-              indicator.style.display = "none";
-            }
-          })
-          .catch((error) => {
-            console.log("FETCH ERROR", error);
-          });
-      } else {
-        alert("다른 이름으로 저장하세요.");
-      }
-    } else {
-      alert("새 파일을 먼저 만들어 주세요");
-    }
-  }
-  */
 }

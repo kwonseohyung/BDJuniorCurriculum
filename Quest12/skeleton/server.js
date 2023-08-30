@@ -55,19 +55,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("view2"));
 app.use("/user", router);
 
-app.listen(8000, function () {
-  console.log("listening on 8000");
+https.createServer(option, app).listen(8000, () => {
+  console.log(`HTTPS server started on port 8080`);
 });
 
-// https.createServer(options, app).listen(8080, () => {
-//   console.log("listening on 8080");
-// });
-https
-  .createServer(option, (req, res) => {
-    res.write("Congrats! You made https server now :)");
-    res.end();
-  })
-  .listen(3000);
 app.get("/", (req, res) => {
   res.render("main.html");
 });
@@ -82,7 +73,6 @@ app.get("/logout", function (req, res, next) {
 const { user } = require("./models");
 const { file } = require("./models");
 const { activity_file } = require("./models");
-const { hostname } = require("os");
 
 app.get("/note/fileContent/:fileName", async (req, res) => {
   const { fileName } = req.params;
@@ -125,9 +115,6 @@ app.post("/note/saveAs", async (req, res) => {
   const id = req.session.userId;
   const title = req.body.keyName;
   const contents = req.body.fileData;
-  console.log("id:" + id + "  title: " + title);
-  //해당 유저의 파일명 존재여부확인
-  console.log(req.session);
 
   try {
     // 파일 존재 여부 확인
