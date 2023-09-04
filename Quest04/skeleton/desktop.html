@@ -1,26 +1,20 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" href="./desktop.css">
-		<script src="./desktop.js"></script>
-	</head>
-	<body>
-		
-		<section class="desktop">
-			
-		</section>
-	
-		<script>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./desktop.css" />
+    <script src="./desktop.js"></script>
+  </head>
+  <body>
+    <section class="desktop"></section>
 
-			let iconInput=prompt("아이콘 종류(folder/normal) 입력");	
-			let numInput= Number(prompt("개수 입력"));	
-        	let myDesktop = new Desktop(iconInput, numInput);
-			myDesktop.makeIcons();
-			
-		
-	
-	
-		</script>
-	</body>
+    <script>
+      let iconInput = prompt("아이콘 종류(folder/normal) 입력");
+      let numInput = Number(prompt("개수 입력"));
+      let myDesktop = new Desktop(iconInput, numInput);
+      myDesktop.makeIcons();
+    </script>
+  </body>
 </html>
