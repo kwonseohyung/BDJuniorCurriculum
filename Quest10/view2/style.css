@@ -42,6 +42,7 @@ a {
   float: left;
   margin-right: 1px;
   border: 1px solid black;
+  position: absolute;
 }
 
 .tab_menu .list .cont {
@@ -55,8 +56,11 @@ a {
   line-height: 20px;
 }
 
-.tab_menu .list .btn {
+.tab_menu .list li .btn {
+  display: inline-block;
   font-size: 12px;
+  position: absolute;
+  top: 10px;
 }
 
 .tab_menu .list li .btn .fileName {

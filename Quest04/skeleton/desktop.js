@@ -28,6 +28,7 @@ class Desktop {
 class Icon extends Desktop {
   constructor(icon, num) {
     super(icon, num);
+    super.move();
   }
 
   move() {
@@ -70,8 +71,9 @@ class Folder extends Icon {
         s.className = "window";
 
         document.querySelector(".desktop").append(s);
-        const newIcon = new Icon("window", 1);
-        newIcon.move();
+        //const newIcon = new Icon("window", 1);
+        //newIcon.move();
+        this.move();
       });
     }
   }
