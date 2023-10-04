@@ -75,7 +75,6 @@ const { activity_file } = require("./models");
 app.get("/note/fileContent/:fileName", async (req, res) => {
   const { fileName } = req.params;
   const id = req.session.userId;
-  console.log("fileName: " + fileName);
   try {
     const existsFile = await file.findOne({
       where: {
@@ -86,8 +85,7 @@ app.get("/note/fileContent/:fileName", async (req, res) => {
 
     if (existsFile) {
       // 중복된 파일이 존재
-      console.log(fileName + " 중복된 파일 존재");
-      console.log(0);
+
       const activity_contents = await file.findOne({
         attributes: ["contents"],
         where: {
@@ -101,7 +99,6 @@ app.get("/note/fileContent/:fileName", async (req, res) => {
         activity_contents: activity_contents.contents,
       });
     } else {
-      console.log(fileName + " 존재안함");
       res.status(200);
     }
   } catch (err) {
@@ -113,10 +110,8 @@ app.post("/note/saveAs", async (req, res) => {
   const id = req.session.userId;
   const title = req.body.keyName;
   const contents = req.body.fileData;
-  console.log("id:" + id + "  title: " + title);
-  //해당 유저의 파일명 존재여부확인
-  console.log(req.session);
 
+  //해당 유저의 파일명 존재여부확인
   try {
     // 파일 존재 여부 확인
     const existsFile = await file.findOne({
@@ -158,6 +153,13 @@ app.post("/note/delete", async (req, res) => {
 
     if (existsFile) {
       // 중복된 파일이 존재
+
+      await file.destroy({
+        where: {
+          user_id: `${id}`,
+          file: `${title}`,
+        },
+      });
       res.status(200).send({ exists: 1 });
     } else {
       await file.destroy({
@@ -197,7 +199,6 @@ app.post("/note/loading", async (req, res) => {
         },
       });
       contents = contents.get("contents");
-      console.log("co: " + contents);
       res.status(200).send({ exists: 1, contents: contents });
     } else {
       res.status(200).send({ exists: 0 });
@@ -235,7 +236,6 @@ app.post("/note/saving", async (req, res) => {
           },
         }
       );
-      console.log("co: " + contents);
       res.status(200).send({ exists: 1, contents: contents });
     } else {
       res.status(200).send({ exists: 0 });
@@ -260,7 +260,6 @@ app.post("/logout", async (req, res) => {
 
     if (existsFile) {
       // 중복된 파일이 존재
-      console.log("Dd");
       await activity_file.destroy({
         where: {
           user_id: `${id}`,
@@ -291,7 +290,6 @@ app.post("/logout", async (req, res) => {
         res.status(500).json({ message: "세션 삭제 실패" });
       } else {
         console.log("세션 삭제 완료 및 이동");
-        console.log(req.session);
         //res.redirect("/");
         res.end();
       }
