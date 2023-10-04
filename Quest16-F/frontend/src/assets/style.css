@@ -43,20 +43,14 @@ textarea {
 .tab_menu .list {
   position: relative;
   width: 410px;
-  background-color: antiquewhite;
   overflow: hidden;
 }
-/* .tab_menu .list {
-  overflow: hidden;
-} */
+
 .tab_menu .list li {
-  /* float: left; */
+  float: left;
   margin-right: 1px;
   border: 1px solid black;
-  /* display: inline-block; */
-  position: absolute;
-  /* position: absolute; */
-  /* overflow: hidden; */
+  overflow: hidden;
   width: 80px;
   height: 25px;
 }

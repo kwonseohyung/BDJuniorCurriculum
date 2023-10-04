@@ -32,21 +32,6 @@ export default {
     };
   },
   methods: {
-    // initializeNotepad() {
-    //   this.$nextTick(() => {
-    //     new Notepad();
-    //   });
-    // },
-    // newFile() {
-    //   this.$axios
-    //     .get("/api/movies")
-    //     .then(() => {
-    //       console.log("확인");
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error fetching movies:", error);
-    //     });
-    // },
     newFile() {
       this.tabList++;
     },
