@@ -61,6 +61,7 @@ class MakeTab {
       console.log(error);
     }
   }
+
   showing() {
     const tabList = document.querySelectorAll(".tab_menu .list li ");
     for (var i = 0; i < tabList.length; i++) {
@@ -106,11 +107,11 @@ class MakeTab {
 class Notepad extends MakeTab {
   constructor() {
     if (
-      jsonData &&
-      jsonData.activity_title &&
-      jsonData.activity_title.length > 0
+      splitData &&
+      splitData.activity_title &&
+      splitData.activity_title.length > 0
     ) {
-      super(jsonData.activity_title[i]);
+      super(splitData.activity_title[i]);
     } else {
       var title = "undefined";
       super(title);
@@ -186,7 +187,7 @@ class Notepad extends MakeTab {
     }
   }
 
-  //prompt 취소버튼 클릭시,  alert("동일한 파일명이 존재합니다. 다른 이름으로 저장해주세요."); 표시됨. 수정필요
+
   saveAsMethod() {
     let indicator = document.querySelector(".tab_menu .list .is_on .indi");
     var input = document.querySelector(".tab_menu .list .is_on .cont");

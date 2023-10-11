@@ -21,7 +21,6 @@
         <button class="mainButton" id="saveAsButtonId">저장(NEW)</button>
         <button class="mainButton" id="deleteButtonId">삭제</button>
         <button class="mainButton" id="logoutButtonId">로그아웃</button>
-        <button class="mainButton" id="testButtonId">test</button>
       </section>
       <main class="tab_menu">
         <ul class="list" id="ulId"></ul>
@@ -29,22 +28,17 @@
     </div>
 
     <script>
-      if ("{{jsonData}}") {
-        var encodedData = "{{ jsonData }}";
-        var parser = new DOMParser();
-        var decodedData = parser.parseFromString(encodedData, "text/html").body
-          .textContent;
-        var jsonData = JSON.parse(decodedData);
-        //jsonData = JSON.parse(jsonData);
-        console.log(typeof jsonData);
-        console.log(jsonData.length);
-        for (var i = 0; i < jsonData.length; i++) {
-          console.log("activity_title[" + i + "]: ", jsonData[i]);
+       if ("{{data}}"){
+        var encodedData = "{{ data }}";
+        var splitData = encodedData.split(',');
 
-          new MakeTab(jsonData[i]);
+        for (var i = 0; i < splitData.length; i++) {
+          console.log("activity_title[" + i + "]: ", splitData[i]);
+          new MakeTab(splitData[i]);
         }
-        let myNote = new Notepad();
-      } else {
+         let myNote = new Notepad();
+       }
+      else {
         let myNote = new Notepad();
       }
     </script>

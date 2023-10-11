@@ -38,7 +38,7 @@ router.post("/sign", async function (req, res) {
       name: body.userName,
       salt: salt,
     });
-
+    
     return res.status(200).send({ exists: 0 });
   }
 });
@@ -69,7 +69,6 @@ router.post("/login", async function (req, res, next) {
 
   if (dbPassword === hashPassword) {
     req.session.userId = body.userId;
-    // res.redirect("/note");
     let session = req.session;
     const activity_title = await activity_file.findAll({
       attributes: ["activity_title"],
@@ -83,6 +82,7 @@ router.post("/login", async function (req, res, next) {
     res.render("index.html", {
       session: session,
       jsonData: JSON.stringify(activity_data),
+      data: activity_data
     });
   } else {
     res.redirect("/user/login");

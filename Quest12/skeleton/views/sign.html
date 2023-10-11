@@ -7,7 +7,11 @@
   </head>
   <body>
     <h3>회원 가입</h3>
-    <form onsubmit="checking()">
+    <form
+      action="http://localhost:8000/user/sign"
+      method="POST"
+      onsubmit="return checking()"
+    >
       <table>
         <tr>
           <td>아이디 :</td>
@@ -46,7 +50,6 @@
       })
         .then((response) => {
           if (response.ok) {
-            console.log(0);
             return response.json();
           } else {
             throw new Error(response.status);
@@ -55,14 +58,15 @@
         .then((data) => {
           if (data && data.exists === 1) {
             alert("동일한 아이디 존재 ");
-            window.location.href = "https://localhost:8000/user/sign";
-          } else {
-            window.location.href = "https://localhost:8000/user/login";
+          }else{
+            window.location.href = "/user/login";
           }
         })
         .catch((error) => {
           console.log("FETCH ERROR", error);
         });
+
+      return false;
     }
   </script>
 </html>
