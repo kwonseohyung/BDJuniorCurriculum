@@ -1,53 +1,66 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var mysql = require('mysql')
+// const config = require("./config/config");
+var sequelize = require("./db/models/index").sequelize;
+sequelize.sync();
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var memoRouter = require("./routes/memo");
 var app = express();
 
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
-app.use(logger("dev"));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use("/memo", memoRouter);
+const models = require("./db/models/index");
 
-app.use(function (req, res, next) {
+
+models.sequelize
+  .authenticate()
+  .then(() => {
+    console.log("데이터베이스 연결 성공");
+  })
+  .catch((err) => {
+    console.error("데이터베이스 연결 실패:", err);
+  });
+
+// const cors = require("cors");
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:8080", // 프론트엔드 도메인
+//     methods: "GET,PUT,POST,DELETE",
+//     allowedHeaders: "Content-Type, Authorization",
+//   })
+// );
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.render('error');
 });
-
-// app.get("/signUp", function (req, res) {
-//   const user = {
-//     userid: req.body.user.userid,
-//     name: req.body.user.name,
-//     password: req.body.user.password,
-//   };
-
-//   console.log("도착");
-//   res.json({
-//     success: true,
-//     message: "Sing Up Success!",
-//   });
-// });
 
 module.exports = app;
