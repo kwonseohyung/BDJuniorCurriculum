@@ -1,33 +1,33 @@
-//import Vue from "vue";
-//import Router from "vue-router";
-import { createWebHistory, createRouter } from "vue-router";
-import Memo from "../components/MemoCom";
-//Vue.use(Router);
-
-// export const router = new Router({
-//   mode: "history",
-//   routes: [
-//     {
-//       path: "/",
-//       name: "index",
-//       component: Index,
-//     },
-//     {
-//       path: "/:id",
-//       name: "show",
-//       component: Show,
-//     },
-//   ],
-// });
+import { createRouter, createWebHistory } from "vue-router";
+import SignCom from "@/components/SignCom";
+import NoteCom from "@/components/NoteCom";
+import LoginCom from "@/components/LoginCom";
+import MainCom from "@/components/MainCom"
 
 const routes = [
   {
+    path: "/memo",
+    name: "NoteCom",
+    component: NoteCom,
+    // props: (route) => ({ noteData: JSON.parse(route.params.noteData) }),
+  },
+
+  {
     path: "/",
-    name: "memo",
-    component: Memo,
+    name: "MainCom",
+    component: MainCom,
+  },
+  {
+    path: "/login",
+    name: "LoginCom",
+    component: LoginCom,
+  },
+  {
+    path: "/sign",
+    name: "SignCom",
+    component: SignCom,
   },
 ];
-
 const router = createRouter({
   history: createWebHistory(),
   routes,

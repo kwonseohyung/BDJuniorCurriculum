@@ -1,17 +1,23 @@
 <template>
-  <div>
+  <div id="app">
     <router-view></router-view>
-    <!-- <IndexCom></IndexCom> -->
   </div>
 </template>
 
 <script>
-//import IndexCom from "./components/NoteCom.vue";
-
 export default {
   name: "App",
-  // components: { IndexCom },
+  components: {},
 };
 </script>
 
-<style></style>
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>

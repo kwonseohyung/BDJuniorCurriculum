@@ -1,109 +1,60 @@
-* {
-  margin: 0;
-  padding: 0;
+.main{
+  position: fixed;
+  left: 20px;
 }
 
-section {
-  margin: 30px 0 50px 30px;
+.mainButton{
+  margin-right: 10px;
+  background-color: burlywood;
+  border: 1px solid burlywood;
+  height: 50px;
+  width: 80px;
 }
-
-.mainButton {
-  background-color: beige;
-  border: 1px solid beige;
-  width: 100px;
-  height: 30px;
-}
-
-ul {
-  list-style: none;
-  width: 400px;
-  height: 30px;
-  /* border: 1px solid red; */
-  overflow: hidden;
-}
-
-a {
-  text-decoration: none;
-  color: #333;
-  padding-left: 3px;
-}
-
-textarea {
+.memo {
   position: fixed;
   top: 150px;
-  width: 400px;
-  height: 300px;
+  left: 20px;
 }
 
-.tab_menu {
-  margin-left: 30px;
-  width: 400px;
-  position: relative;
-}
-.tab_menu .list {
-  position: relative;
-  width: 410px;
-  overflow: hidden;
+.memo-tabs {
+  display: flex;
+  width: 800px;
+  overflow-x: auto;
 }
 
-.tab_menu .list li {
-  float: left;
-  margin-right: 1px;
+.tab {
+  cursor: pointer;
+  margin-right: 5px;
+  padding: 2px;
   border: 1px solid black;
-  overflow: hidden;
-  width: 80px;
-  height: 25px;
+  min-width: 80px;
 }
 
-p {
-  display: inline;
+.active {
+  background-color: bisque;
+}
+
+
+.close {
+  margin-right: 3px;
   margin-left: 3px;
-  font-size: 13px;
-}
-
-/* button {
-  display: inline;
-} */
-/* .tab_menu .list .cont {
-  display: none;
-  position: absolute;
-  left: 0px;
-  top: 20px;
   border: 1px solid black;
-  width: 400px;
+  
+}
+
+.memo-editor {
+  margin-top: 10px;
+}
+textarea{
   height: 300px;
-  line-height: 20px;
-} */
-
-.tab_menu .list li .btn {
-  /* display: inline-block; */
-  font-size: 12px;
-  /* position: absolute; */
-  float: right;
-  margin-right: 3px;
-  margin-top: 2px;
-  top: 3px;
-  right: 2px;
-  /* right: 5px; */
 }
 
-.tab_menu .list li .btn .fileName {
-  display: inline;
+.memo-editor input,
+.memo-editor textarea {
+  width: 100%;
+  margin-bottom: 10px;
 }
 
-.tab_menu .list .is_on {
-  background-color: beige;
-}
-
-.tab_menu .list li.is_on .cont {
-  display: block;
-}
-
-.tab_menu .list li .XButton {
-  margin-right: 3px;
-}
-
-.tab_menu .list li .indi {
-  color: red;
-  display: none;
+.indicator{
+  color:red;
 }
