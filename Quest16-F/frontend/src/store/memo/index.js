@@ -1,148 +1,234 @@
-// store/memo/index.js
-
+/* eslint-disable */
 import axios from "axios";
+import router from "@/routes/index";
 
-export default {
-  state: {
-    memos: [],
-    currentMemo: {
-      title: "새 파일",
-      content: "",
-      indication: false,
-    },
-    currentTabIndex: 0,
+const state = {
+  memos: [],
+  currentMemo: {
+    title: "새 파일",
+    content: "",
+    indication: false,
   },
+  currentTabIndex: 0,
+  errormsg: "",
+  userid: "",
+};
 
-  mutations: {
-    updateMemos(state, memos) {
-      state.memos = memos;
-    },
-    updateCurrentMemo(state, memo) {
-      state.currentMemo = memo;
-    },
-    updateCurrentTabIndex(state, index) {
-      state.currentTabIndex = index;
-    },
+const mutations = {
+  updateMemos(state, memos) {
+    state.memos = memos;
   },
-  actions: {
-    async fetchMemos({ commit }) {
-      try {
-        // 서버에서 메모 목록을 가져오는 비동기 작업
-        const response = await axios.get("/api/memos");
-        const memos = response.data;
-        commit("updateMemos", memos);
-      } catch (error) {
-        console.error("Error fetching memos:", error);
+  updateCurrentMemo(state, memo) {
+    state.currentMemo = memo;
+  },
+  updateCurrentTabIndex(state, index) {
+    state.currentTabIndex = index;
+  },
+  addMemo(state, newMemo) {
+    state.memos.push(newMemo);
+  },
+  // indicateMemo(state) {
+  //   state.memos[state.currentTabIndex].indication = true;
+  // },
+  selectTab(state, index) {
+    state.memos[state.currentTabIndex] = { ...state.currentMemo };
+    state.currentTabIndex = index;
+    state.currentMemo = { ...state.memos[index] };
+  },
+  closeMemo(state, index) {
+    if (index === state.currentTabIndex) {
+      if (state.memos.length === 0) {
+        state.memos.push({ title: "새 파일", content: "", indication: false });
+      } else if (index > 0) {
+        state.currentTabIndex = index - 1;
       }
-    },
-    async saveMemo({ state }) {
-      const title = state.currentMemo.title;
-      const content = state.currentMemo.content;
+    }
+    state.memos.splice(index, 1);
+    state.currentMemo = { ...state.memos[state.currentTabIndex] };
+  },
+  setErrorMessage(state, message) {
+    console.log(state);
+    state.errormsg = message;
+  },
+};
+
+const actions = {
+  async fetchMemos({ commit, dispatch }, userData) {
+    try {
+      const response = await axios.post("/api/memo/getMemo", {
+        userid: userData.userid,
+      });
+      const data = response.data;
+      console.log(data.data);
+      if (data.message === "메모데이터") {
+        const updatedMemos = data.data.map((memo) => {
+          return { ...memo, isSaved: true };
+        });
+        console.log(updatedMemos);
+        commit("updateMemos", updatedMemos);
+        dispatch("newMemo");
+        return;
+      } else {
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async saveMemo({ state, commit }) {
+    console.log("saveMemo action");
+    const title = state.currentMemo.title;
+    const content = state.currentMemo.content;
+    try {
+      const response = await axios.post("/api/memo/save", {
+        title: title,
+        content: content,
+        userid: sessionStorage.getItem("userid"),
+      });
+      const data = response.data;
+      if (data.message === "파일 저장 성공") {
+        state.currentMemo.isSaved = true;
+      } else {
+        commit("setErrorMessage", data.message);
+        alert(state.errormsg);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async deleteMemo({ state, dispatch, commit }) {
+    console.log("deleteMemo action");
+    const titleToDelete = state.memos[state.currentTabIndex].title;
+    try {
+      const response = await axios.post("/api/memo/delete", {
+        title: titleToDelete,
+        userid: sessionStorage.getItem("userid"),
+      });
+      const data = response.data;
+      if (data.message === "파일 삭제 성공") {
+        state.memos.splice(state.currentTabIndex, 1);
+        if (state.memos.length === 0) {
+          dispatch("newMemo");
+        } else if (state.currentTabIndex > 0) {
+          dispatch("selectTab", state.currentTabIndex - 1);
+        } else {
+          dispatch("selectTab", 0);
+        }
+      } else {
+        // 삭제 실패
+        commit("setErrorMessage", data.message);
+        alert(state.errormsg);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async openMemo({ state, commit }) {
+    console.log("openMemo action");
+    const title = prompt("파일 제목을 입력하세요.");
+    if (title) {
       try {
-        // 서버에 메모를 저장하는 비동기 작업
-        const response = await axios.post("/api/memo/save", {
+        const response = await axios.post("/api/memo/open", {
+          userid: sessionStorage.getItem("userid"),
           title: title,
-          content: content,
+        });
+        const data = response.data;
+        if (data.message === "파일 로딩 성공") {
+          const newMemo = {
+            title: title,
+            content: data.data,
+            // indication: false,
+            // isSaved: true,
+          };
+          state.memos.push(newMemo);
+          commit("updateCurrentMemo", { ...newMemo });
+          commit("updateCurrentTabIndex", state.memos.length - 1);
+        } else {
+          // 열기 실패
+          commit("setErrorMessage", data.message);
+          alert(state.errormsg);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  },
+  async saveAsMemo({ state, commit }) {
+    console.log("saveAs action");
+    const newTitle = prompt("파일 이름을 입력하세요:");
+
+    if (newTitle === "") {
+      alert("메모 제목을 입력하세요.");
+      return;
+    }
+
+    if (newTitle !== null) {
+      try {
+        const response = await axios.post("/api/memo/saveAs", {
+          title: newTitle,
+          content: state.currentMemo.content,
           userid: sessionStorage.getItem("userid"),
         });
         const data = response.data;
         if (data.message === "파일 저장 성공") {
-          state.currentMemo.isSaved = true;
-        } else {
-          // 저장 실패한 경우에 대한 처리
-        }
-      } catch (error) {
-        console.error("Error saving memo:", error);
-      }
-    },
-    async deleteMemo({ state, dispatch }) {
-      const titleToDelete = state.memos[state.currentTabIndex].title;
-      try {
-        // 서버로 메모 삭제 요청 보내는 비동기 작업
-        const response = await axios.post("/api/memo/delete", {
-          title: titleToDelete,
-          userid: sessionStorage.getItem("userid"),
-        });
-        const data = response.data;
-        if (data.message === "파일 삭제 성공") {
-          state.memos.splice(state.currentTabIndex, 1);
-          if (state.memos.length === 0) {
-            dispatch("newMemo");
-          } else if (state.currentTabIndex > 0) {
-            dispatch("selectTab", state.currentTabIndex - 1);
-          } else {
-            dispatch("selectTab", 0);
-          }
-        } else {
-          // 삭제 실패한 경우에 대한 처리
-        }
-      } catch (error) {
-        console.error("Error deleting memo:", error);
-      }
-    },
-    async openMemo({ state, commit }) {
-      const title = prompt("파일 제목을 입력하세요.");
-      if (title) {
-        try {
-          // 서버로 메모 열기 요청 보내는 비동기 작업
-          const response = await axios.post("/api/memo/open", {
-            userid: sessionStorage.getItem("userid"),
-            title: title,
-          });
-          const data = response.data;
-          if (data.message === "파일 로딩 성공") {
-            const newMemo = {
-              title: title,
-              content: data.data,
-              indication: false,
-              isSaved: true,
-            };
-            state.memos.push(newMemo);
-            commit("updateCurrentMemo", { ...newMemo });
-            commit("updateCurrentTabIndex", state.memos.length - 1);
-          } else {
-            // 열기 실패한 경우에 대한 처리
-          }
-        } catch (error) {
-          console.error("Error opening memo:", error);
-        }
-      }
-    },
-    async saveAsMemo({ state, commit }) {
-      const newTitle = prompt("파일 이름을 입력하세요:");
-
-      if (newTitle === "") {
-        alert("메모 제목을 입력하세요.");
-        return;
-      }
-
-      if (newTitle !== null) {
-        try {
-          // 서버로 메모 저장 요청 보내는 비동기 작업
-          const response = await axios.post("/api/memo/saveAs", {
+          commit("updateCurrentMemo", {
+            ...state.currentMemo,
             title: newTitle,
-            content: state.currentMemo.content,
-            userid: sessionStorage.getItem("userid"),
+            isSaved: true,
           });
-          const data = response.data;
-          if (data.message === "파일 저장 성공") {
-            commit("updateCurrentMemo", {
-              ...state.currentMemo,
-              title: newTitle,
-              isSaved: true,
-            });
-          } else {
-            // 저장 실패한 경우에 대한 처리
-          }
-        } catch (error) {
-          console.error("Error saving memo:", error);
+          //
+        } else {
+          // 저장 실패
+          commit("setErrorMessage", data.message);
+          alert(state.errormsg);
         }
+      } catch (error) {
+        console.error(error);
       }
-    },
+    }
   },
-  getters: {
-    hasUnsavedMemos(state) {
-      return state.memos.some((memo) => !memo.isSaved);
-    },
+  newMemo({ commit, state }) {
+    console.log("새파일클릭");
+    const newMemo = { title: "새 파일", content: "", indication: false };
+    commit("addMemo", newMemo);
+    state.currentMemo = { ...newMemo };
+    state.currentTabIndex = state.memos.length - 1;
   },
+  // indicate({ commit, state }) {
+  //   commit("indicateMemo");
+  // },
+  selectTab({ commit, state }, index) {
+    commit("selectTab", index);
+  },
+  closeMemo({ commit, state }, index) {
+    if (index === state.currentTabIndex) {
+      if (state.memos.length === 0) {
+        commit("addMemo", { title: "새 파일", content: "", indication: false });
+      } else if (index > 0) {
+        commit("selectTab", index - 1);
+      }
+    }
+    commit("closeMemo", index);
+  },
+  async logout({ state }) {
+    const savedTabs = state.memos.filter((memo) => memo.isSaved);
+    const activityMemoTitles = savedTabs.map((memo) => memo.title);
+    try {
+      await axios.post("/api/users/logout", {
+        userid: sessionStorage.getItem("userid"),
+        activityMemoTitles: activityMemoTitles,
+      });
+
+      sessionStorage.removeItem(state.userid);
+      router.replace("/");
+    } catch (error) {
+      console.error(error);
+    }
+  },
+};
+
+export default {
+  namespaced: true,
+  state,
+  actions,
+  mutations,
 };

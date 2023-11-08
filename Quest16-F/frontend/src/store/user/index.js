@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from "axios";
 
 const state = {
@@ -25,6 +26,8 @@ const actions = {
       const data = response.data;
       if (data.message === "로그인 성공") {
         sessionStorage.setItem("userid", userData.userid);
+        await this.dispatch("memo/fetchMemos", userData);
+        return data;
       } else {
         commit("setErrorMessage", data.message);
       }

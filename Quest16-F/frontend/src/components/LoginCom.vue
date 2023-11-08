@@ -11,7 +11,6 @@
     </div>
     <button onclick="location.href='/'">홈</button>
     <button @click="login">확인</button>
-    <button @click="login2">확인2</button>
   </div>
 </template>
 
@@ -36,12 +35,15 @@ export default {
         .then((data) => {
           console.log(0);
           if (data && data.message === "로그인 성공") {
-            console.log(1);
-            console.log(data.data);
-            this.$router.push({
-              name: "NoteCom",
-              state: { noteData: JSON.stringify(data.data) },
-            });
+            // this.$router.push({
+            //   name: "NoteCom",
+            //   state: { noteData: JSON.stringify(data.data) },
+            // });
+            // this.$store.dispatch("memo/fetchMemos", userData).then(() => {
+            //   this.$router.push({ name: "NoteCom" });
+            // });
+            this.$router.push({ name: "NoteCom" });
+            //this.$router.push({ name: "NoteCom" });
           } else {
             alert(data.message);
           }

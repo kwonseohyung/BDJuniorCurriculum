@@ -1,10 +1,10 @@
-.main{
+.main {
   position: fixed;
   left: 20px;
 }
 
-.mainButton{
-  margin-right: 10px;
+.mainButton {
+  margin-right: 15px;
   background-color: burlywood;
   border: 1px solid burlywood;
   height: 50px;
@@ -34,18 +34,16 @@
   background-color: bisque;
 }
 
-
 .close {
   margin-right: 3px;
   margin-left: 3px;
   border: 1px solid black;
-  
 }
 
 .memo-editor {
   margin-top: 10px;
 }
-textarea{
+textarea {
   height: 300px;
 }
 
@@ -55,6 +53,6 @@ textarea{
   margin-bottom: 10px;
 }
 
-.indicator{
-  color:red;
+.indicator {
+  color: red;
 }
