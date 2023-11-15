@@ -96,6 +96,8 @@ exports.login = async (req, res, userid, password) => {
 exports.logout = async (req, res, userid, activityMemoTitles) => {
   try {
     const user_seq = await findUserSeq(userid);
+    console.log("user_Seq" + user_seq);
+    console.log("acti: " + activityMemoTitles);
     //해당 유저에 해당하는 act_yn은 N으로 초기화
     await models.tb_user_file.update(
       {

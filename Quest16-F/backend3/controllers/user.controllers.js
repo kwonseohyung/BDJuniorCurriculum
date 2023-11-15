@@ -41,7 +41,9 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
   try {
     const { userid, activityMemoTitles } = req.body;
+    console.log("logout컨트롤러: " + req.body);
     let result = await userService.logout(req, res, userid, activityMemoTitles);
+    console.log("Result: " + result);
     if (result) {
       res.status(200).json({ message: "로그아웃 성공" });
     }

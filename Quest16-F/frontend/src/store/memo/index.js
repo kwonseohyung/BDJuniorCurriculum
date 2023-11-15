@@ -50,6 +50,9 @@ const mutations = {
     console.log(state);
     state.errormsg = message;
   },
+  setUserId(state, userid) {
+    state.userid = userid;
+  },
 };
 
 const actions = {
@@ -136,9 +139,9 @@ const actions = {
           const newMemo = {
             title: title,
             content: data.data,
-            // indication: false,
-            // isSaved: true,
+            isSaved: true,
           };
+
           state.memos.push(newMemo);
           commit("updateCurrentMemo", { ...newMemo });
           commit("updateCurrentTabIndex", state.memos.length - 1);
@@ -209,16 +212,16 @@ const actions = {
     }
     commit("closeMemo", index);
   },
-  async logout({ state }) {
+  async logout() {
     const savedTabs = state.memos.filter((memo) => memo.isSaved);
     const activityMemoTitles = savedTabs.map((memo) => memo.title);
+
     try {
       await axios.post("/api/users/logout", {
         userid: sessionStorage.getItem("userid"),
         activityMemoTitles: activityMemoTitles,
       });
-
-      sessionStorage.removeItem(state.userid);
+      sessionStorage.removeItem(sessionStorage.getItem("userid"));
       router.replace("/");
     } catch (error) {
       console.error(error);
